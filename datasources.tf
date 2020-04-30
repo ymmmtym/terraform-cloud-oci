@@ -11,5 +11,6 @@ data "oci_core_public_ip" "public_ip01" {
 # }
 
 output "ubuntu02" {
-  value = oci_core_instance.ubuntu02
+  # value = oci_core_instance.ubuntu02[0]
+  value = lookup(oci_core_instance.ubuntu02[0], "public_ip")
 }
