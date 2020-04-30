@@ -1,7 +1,7 @@
-# data "oci_identity_availability_domains" "ADs" {
-#   compartment_id = var.COMPARTMENT_OCID
-# }
+data "oci_identity_availability_domains" "ads" {
+  compartment_id = var.COMPARTMENT_OCID
+}
 
-# output "ADprint" {
-#   value = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
-# }
+output "ADs" {
+  value = lookup(data.oci_identity_availability_domains.ads.availability_domains[0],"name")
+}
