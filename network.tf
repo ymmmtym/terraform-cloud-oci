@@ -37,6 +37,26 @@ resource "oci_core_security_list" "sl_web" {
         }
         description = "ssh"
     }
+    ingress_security_rules {
+        source = "0.0.0.0/0"
+        protocol = "TCP"
+        stateless = false
+        tcp_options {
+            max = "80"
+            min = "80"
+        }
+        description = "http-server"
+    }
+    ingress_security_rules {
+        source = "0.0.0.0/0"
+        protocol = "TCP"
+        stateless = false
+        tcp_options {
+            max = "443"
+            min = "443"
+        }
+        description = "https-server"
+    }
     vcn_id = oci_core_virtual_network.vcn01.id
     display_name = "sl_web"
 }
