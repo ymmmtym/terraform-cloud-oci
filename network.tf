@@ -1,8 +1,7 @@
-resource "oci_core_virtual_network" "ExampleVCN" {
-  cidr_block = "10.1.0.0/16"
+resource "oci_core_virtual_network" "vnc01" {
+  cidr_block = "192.168.1.0/24"
   compartment_id = var.TENANCY_OCID
-  display_name = "TFExampleVCN"
-  dns_label = "tfexamplevcn"
+  display_name = "vnc01"
 }
 
 # resource "oci_core_subnet" "ExampleSubnet" {
