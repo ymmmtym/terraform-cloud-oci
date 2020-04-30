@@ -15,11 +15,3 @@ provider "oci" {
   private_key_password = var.PRIVATE_KEY_PASSWORD
   region = var.REGION
 }
-
-# data "oci_identity_availability_domains" "ADs" {
-#   compartment_id = var.TENANCY_OCID
-# }
-
-# output "ADprint" {
-#   value = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
-# }
