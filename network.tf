@@ -24,12 +24,12 @@ resource "oci_core_security_list" "sl_web" {
     compartment_id = var.COMPARTMENT_OCID
     egress_security_rules {
         destination = "0.0.0.0/0"
-        protocol = "TCP"
+        protocol = "6"
         stateless = false
     }
     ingress_security_rules {
         source = "0.0.0.0/0"
-        protocol = "TCP"
+        protocol = "6"
         stateless = false
         tcp_options {
             max = "22"
@@ -39,7 +39,7 @@ resource "oci_core_security_list" "sl_web" {
     }
     ingress_security_rules {
         source = "0.0.0.0/0"
-        protocol = "TCP"
+        protocol = "6"
         stateless = false
         tcp_options {
             max = "80"
@@ -49,7 +49,7 @@ resource "oci_core_security_list" "sl_web" {
     }
     ingress_security_rules {
         source = "0.0.0.0/0"
-        protocol = "TCP"
+        protocol = "6"
         stateless = false
         tcp_options {
             max = "443"

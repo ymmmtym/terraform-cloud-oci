@@ -8,7 +8,7 @@
 #         subnet_id = oci_core_subnet.subnet01.id
 #     }
 #     source_details {
-#         source_id = var.instance_image_ocid[var.REGION]
+#         source_id = "ocid1.image.oc1.ap-tokyo-1.aaaaaaaat4kfe427svas2tocgp3sz6py6hr3od7tgsohuw43lm3fl3gcioiq"
 #         source_type = "image"
 #     }
 #     metadata {
