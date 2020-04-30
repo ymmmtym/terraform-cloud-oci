@@ -62,7 +62,7 @@ resource "oci_core_security_list" "sl_web" {
 }
 
 resource "oci_core_subnet" "subnet01" {
-#   availability_domain = lookup(data.oci_identity_availability_domains.ads.availability_domains[var.AD - 1],"name")
+  availability_domain = lookup(data.oci_identity_availability_domains.ads.availability_domains[var.AD - 1],"name")
   cidr_block = "192.168.0.0/24"
   display_name = "subnet01"
   dns_label = "subnet01"
