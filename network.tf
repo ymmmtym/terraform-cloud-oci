@@ -27,15 +27,16 @@ resource "oci_core_security_list" "sl_web" {
         protocol = "TCP"
         stateless = false
     }
-    # ingress_security_rules {
-    #     source = "${var.sl_ingress_source_web}"          # 必須
-    #     protocol = "${var.sl_ingress_protocol_web}"      # 必須
-    #     stateless = false
-    #     tcp_options {
-    #         max = "${var.sl_ingress_tcp_dest_port_max_web}"
-    #         min = "${var.sl_ingress_tcp_dest_port_min_web}"
-    #     }
-    # }
+    ingress_security_rules {
+        source = "0.0.0.0/0"
+        protocol = "TCP"
+        stateless = false
+        tcp_options {
+            max = "22"
+            min = "22"
+        }
+        description = "ssh"
+    }
     vcn_id = oci_core_virtual_network.vcn01.id
     display_name = "sl_web"
 }
