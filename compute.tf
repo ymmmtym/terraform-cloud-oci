@@ -2,7 +2,7 @@ resource "oci_core_instance" "ubuntu02" {
     count = "1"
     availability_domain = oci_core_subnet.subnet01.availability_domain
     compartment_id = var.COMPARTMENT_OCID
-    shape = "VM.Standard2.1.Micro"
+    shape = "VM.Standard.E2.1.Micro"
     display_name = "ubuntu02"
     create_vnic_details {
         subnet_id = oci_core_subnet.subnet01.id
