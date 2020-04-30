@@ -6,6 +6,9 @@ variable "PRIVATE_KEY_PASSWORD" {}
 variable "REGION" {
   default = "ap-tokyo-1"
 }
+variable "COMPARTMENT_OCID" {
+  default = "${var.TENANCY_OCID}"
+}
 
 provider "oci" {
   tenancy_ocid = var.TENANCY_OCID
