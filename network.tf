@@ -10,15 +10,15 @@ resource "oci_core_internet_gateway" "ig01" {
   vcn_id = oci_core_virtual_network.vcn01.id
 }
 
-# resource "oci_core_route_table" "rt01" {
-#   compartment_id = var.COMPARTMENT_OCID
-#   vcn_id = oci_core_virtual_network.vcn01.id
-#   display_name = "rt01"
-#   route_rules {
-#     destination = "0.0.0.0/0"
-#     network_entity_id = "oci_core_internet_gateway.ig01.id"
-#   }
-# }
+resource "oci_core_route_table" "rt01" {
+  compartment_id = var.COMPARTMENT_OCID
+  vcn_id = oci_core_virtual_network.vcn01.id
+  display_name = "rt01"
+  route_rules {
+    destination = "0.0.0.0/0"
+    network_entity_id = oci_core_internet_gateway.ig01.id
+  }
+}
 
 # resource "oci_core_security_list" "sl_web" {
 #     compartment_id = var.COMPARTMENT_OCID
