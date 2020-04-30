@@ -10,6 +10,16 @@ resource "oci_core_internet_gateway" "ig01" {
   vcn_id = oci_core_virtual_network.vcn01.id
 }
 
+resource "oci_core_route_table" "rt01" {
+  compartment_id = var.COMPARTMENT_OCID
+  vcn_id = oci_core_virtual_network.vcn01.id
+  display_name = "rt01"
+  route_rules {
+    cidr_block = "0.0.0.0/0"
+    network_entity_id = "oci_core_internet_gateway.ig01.id"
+  }
+}
+
 # resource "oci_core_subnet" "subnet01" {
 #   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
 #   cidr_block = "192.168.0.0/24"
@@ -20,14 +30,4 @@ resource "oci_core_internet_gateway" "ig01" {
 #   vcn_id = "${oci_core_virtual_network.ExampleVCN.id}"
 #   route_table_id = "${oci_core_route_table.ExampleRT.id}"
 #   dhcp_options_id = "${oci_core_virtual_network.ExampleVCN.default_dhcp_options_id}"
-# }
-
-# resource "oci_core_route_table" "ExampleRT" {
-#   compartment_id = "${var.compartment_ocid}"
-#   vcn_id = "${oci_core_virtual_network.ExampleVCN.id}"
-#   display_name = "TFExampleRouteTable"
-#   route_rules {
-#     cidr_block = "0.0.0.0/0"
-#     network_entity_id = "${oci_core_internet_gateway.ExampleIG.id}"
-#   }
 # }
