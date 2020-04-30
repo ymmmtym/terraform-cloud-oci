@@ -53,17 +53,18 @@ resource "oci_core_instance" "ubuntu02" {
 # data "oci_core_private_ips" "ubuntu01_private_ips" {
 #   vnic_id = "${data.oci_core_vnic.ubuntu01_vnic01.id}"
 # }
-# resource "oci_core_public_ip" "public_ip01" {
-#   compartment_id = var.COMPARTMENT_OCID
-#   lifetime       = "RESERVED"
-#   display_name   = "public_ip01"
-#   private_ip_id  = lookup(data.oci_core_private_ips.ubuntu01_private_ips.private_ips[0], "id")
-# }
+resource "oci_core_public_ip" "public_ip01" {
+  compartment_id = var.COMPARTMENT_OCID
+  lifetime       = "RESERVED"
+  display_name   = "public_ip01"
+  ip_address     = lookup(data.oci_core_public_ip.public_ip01, "ip_address")
+  private_ip_id  = lookup(oci_core_instance.ubuntu01[0].create_vnic_details[0].private_ip, "id")
+}
 
 # output ip addresses
-# output "ubuntu01" {
-#   value = lookup(oci_core_instance.ubuntu01[0], "public_ip")
-# }
-# output "ubuntu02" {
-#   value = lookup(oci_core_instance.ubuntu02[0], "public_ip")
-# }
+output "ubuntu01" {
+  value = lookup(oci_core_instance.ubuntu01[0], "public_ip")
+}
+output "ubuntu02" {
+  value = lookup(oci_core_instance.ubuntu02[0], "public_ip")
+}
