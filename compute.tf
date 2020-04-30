@@ -1,12 +1,3 @@
-data "oci_core_instance" "test_instance" {
-    #Required
-    instance_id = "ocid1.instance.oc1.ap-tokyo-1.anxhiljrhki6czacqpkyum7snuooahii4mcx7hvznuynnuo6fgwnw6z7dnsa"
-}
-
-output "VMs" {
-  value = lookup(data.oci_core_instance.test_instance,"name")
-}
-
 # resource "oci_core_instance" "ubuntu03" {
 #     count = "1"
 #     # availability_domain = "${oci_core_subnet.subnet01.availability_domain}"    # 必須
