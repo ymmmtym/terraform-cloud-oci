@@ -7,6 +7,8 @@ variable "REGION" {
   default = "ap-tokyo-1"
 }
 variable "COMPARTMENT_OCID" {}
+variable "SSH_PUBLIC_KEY" {}
+
 
 provider "oci" {
   tenancy_ocid = var.TENANCY_OCID
