@@ -61,14 +61,14 @@ resource "oci_core_security_list" "sl_web" {
     display_name = "sl_web"
 }
 
-# resource "oci_core_subnet" "subnet01" {
-#   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
-#   cidr_block = "192.168.0.0/24"
-#   display_name = "subnet01"
-#   dns_label = "subnet01"
-#   security_list_ids = ["${oci_core_virtual_network.ExampleVCN.default_security_list_id}"]
-#   compartment_id = "${var.compartment_ocid}"
-#   vcn_id = "${oci_core_virtual_network.ExampleVCN.id}"
-#   route_table_id = "${oci_core_route_table.ExampleRT.id}"
-#   dhcp_options_id = "${oci_core_virtual_network.ExampleVCN.default_dhcp_options_id}"
-# }
+resource "oci_core_subnet" "subnet01" {
+#   availability_domain = lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")
+  cidr_block = "192.168.0.0/24"
+  display_name = "subnet01"
+  dns_label = "subnet01"
+  security_list_ids = [oci_core_security_list.sl_web.id]
+  compartment_id = var.COMPARTMENT_OCID
+  vcn_id = oci_core_virtual_network.vcn01.id
+  route_table_id = oci_core_route_table.rt01.id
+  dhcp_options_id = oci_core_virtual_network.vcn01.default_dhcp_options_id
+}
