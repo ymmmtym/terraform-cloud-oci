@@ -61,9 +61,9 @@ resource "oci_core_public_ip" "public_ip01" {
 }
 
 # output ip addresses
-output "ubuntu01" {
-  value = lookup(oci_core_instance.ubuntu01[0], "public_ip")
-}
-output "ubuntu02" {
-  value = lookup(oci_core_instance.ubuntu02[0], "public_ip")
-}
+# output "ubuntu01" {
+#   value = lookup(oci_core_instance.ubuntu01[0], "public_ip")
+# }
+# output "ubuntu02" {
+#   value = lookup(oci_core_instance.ubuntu02[0], "public_ip")
+# }
