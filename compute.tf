@@ -1,6 +1,6 @@
 # resource "oci_core_instance" "ubuntu03" {
 #     count = "1"
-#     # availability_domain = "${oci_core_subnet.subnet01.availability_domain}"    # 必須
+#     availability_domain = oci_core_subnet.subnet01.availability_domain
 #     compartment_id = var.COMPARTMENT_OCID
 #     shape = "VM.Standard2.1.Micro"
 #     display_name = "ubuntu03"
