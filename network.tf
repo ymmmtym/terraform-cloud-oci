@@ -2,6 +2,7 @@ resource "oci_core_virtual_network" "vcn01" {
   cidr_block = "192.168.0.0/16"
   compartment_id = var.COMPARTMENT_OCID
   display_name = "vcn01"
+  dns_label = "vcn01"
 }
 
 resource "oci_core_internet_gateway" "ig01" {
@@ -65,10 +66,10 @@ resource "oci_core_subnet" "subnet01" {
   availability_domain = lookup(data.oci_identity_availability_domains.ads.availability_domains[0],"name")
   cidr_block = "192.168.0.0/24"
   display_name = "subnet01"
-  dns_label = "subnet01"
+  dns_label = "vcn01"
   security_list_ids = [oci_core_security_list.sl_web.id]
   compartment_id = var.COMPARTMENT_OCID
   vcn_id = oci_core_virtual_network.vcn01.id
   route_table_id = oci_core_route_table.rt01.id
-  dhcp_options_id = oci_core_virtual_network.vcn01.default_dhcp_options_id
+  prohibit_public_ip_on_vnic = false
 }
