@@ -1,13 +1,13 @@
 resource "oci_core_virtual_network" "vcn01" {
   cidr_block = "192.168.0.0/16"
-  compartment_id = "${var.TENANCY_OCID}"
+  compartment_id = var.TENANCY_OCID
   display_name = "vcn01"
 }
 
 resource "oci_core_internet_gateway" "ig01" {
-  compartment_id = "${var.TENANCY_OCID}"
+  compartment_id = var.TENANCY_OCID
   display_name = "ig01"
-  vcn_id = "${oci_core_virtual_network.vcn01.id}"
+  vcn_id = oci_core_virtual_network.vcn01.id
 }
 
 # resource "oci_core_subnet" "subnet01" {
