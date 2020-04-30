@@ -20,6 +20,26 @@ resource "oci_core_route_table" "rt01" {
   }
 }
 
+resource "oci_core_security_list" "sl_web" {
+    compartment_id = var.COMPARTMENT_OCID
+    egress_security_rules {
+        destination = "0.0.0.0/0"
+        protocol = "TCP"
+        stateless = false
+    }
+    # ingress_security_rules {
+    #     source = "${var.sl_ingress_source_web}"          # 必須
+    #     protocol = "${var.sl_ingress_protocol_web}"      # 必須
+    #     stateless = false
+    #     tcp_options {
+    #         max = "${var.sl_ingress_tcp_dest_port_max_web}"
+    #         min = "${var.sl_ingress_tcp_dest_port_min_web}"
+    #     }
+    # }
+    vcn_id = oci_core_vcn.vcn01.id
+    display_name = "sl_web"
+}
+
 # resource "oci_core_subnet" "subnet01" {
 #   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.AD - 1],"name")}"
 #   cidr_block = "192.168.0.0/24"
