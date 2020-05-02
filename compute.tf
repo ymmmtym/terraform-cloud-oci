@@ -8,7 +8,8 @@ resource "oci_core_instance" "ubuntu01" {
         subnet_id = oci_core_subnet.subnet01.id
         private_ip = "192.168.0.2"
         display_name     = "vnic01"
-        assign_public_ip = false
+        assign_public_ip = true
+        public_ip = "132.145.118.149"
         hostname_label   = "ubuntu01"
     }
     source_details {
