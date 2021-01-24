@@ -1,5 +1,5 @@
 /*.tfvars
 /*.tfstate
 /*.tfstate.backup
-/.terraform/
+/.terraform*
 /oci.pem*
