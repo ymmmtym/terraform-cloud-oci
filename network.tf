@@ -87,6 +87,7 @@ resource "oci_load_balancer_load_balancer" "lb01" {
   #   {
   #     ip_address = data.oci_core_public_ip.public_ip01.ip_address
   #     is_public = true
+  #     reserved_ip = data.oci_core_public_ip.public_ip01.ip_address
   #   }
   # ]
   subnet_ids = [
@@ -94,25 +95,44 @@ resource "oci_load_balancer_load_balancer" "lb01" {
   ]
 }
 
-# resource "oci_load_balancer_backend_set" "lb01_bes" {
-#   name             = "lb01_bes"
-#   load_balancer_id = oci_load_balancer_load_balancer.lb01.id
-#   policy           = "ROUND_ROBIN"
-#   health_checker {
-#     port                = "80"
-#     protocol            = "HTTP"
-#     response_body_regex = ".*"
-#     url_path            = "/"
-#   }
-#   session_persistence_configuration {
-#   cookie_name      = "lb01_session1"
-#   disable_fallback = true
-#   }
-# }
+resource "oci_load_balancer_backend_set" "lb01_bes" {
+  name             = "lb01_bes"
+  load_balancer_id = oci_load_balancer_load_balancer.lb01.id
+  policy           = "ROUND_ROBIN"
+  health_checker {
+    port                = "80"
+    protocol            = "HTTP"
+    response_body_regex = ".*"
+    url_path            = "/"
+  }
+  session_persistence_configuration {
+  cookie_name      = "lb01_session1"
+  disable_fallback = true
+  }
+}
 
-# resource "oci_load_balancer_backend" "lb01_be" {
-#   backendset_name = oci_load_balancer_backend_set.lb01_bes.name
-#   ip_address = data.oci_core_public_ip.public_ip01.ip_address
-#   load_balancer_id = oci_load_balancer_load_balancer.lb01.id
-#   port = "80"
-# }
+resource "oci_load_balancer_backend" "lb01_be01" {
+  backendset_name = oci_load_balancer_backend_set.lb01_bes.name
+  ip_address = oci_core_instance.ubuntu01[0].private_ip
+  load_balancer_id = oci_load_balancer_load_balancer.lb01.id
+  port = "80"
+}
+
+resource "oci_load_balancer_backend" "lb01_be02" {
+  backendset_name = oci_load_balancer_backend_set.lb01_bes.name
+  ip_address = oci_core_instance.ubuntu02[0].private_ip
+  load_balancer_id = oci_load_balancer_load_balancer.lb01.id
+  port = "80"
+}
+
+resource "oci_load_balancer_listener" "load_balancer_listener0" {
+  load_balancer_id         = oci_load_balancer_load_balancer.lb01.id
+  name                     = "http"
+  default_backend_set_name = oci_load_balancer_backend_set.lb01_bes.name
+  port                     = 80
+  protocol                 = "HTTP"
+
+  connection_configuration {
+    idle_timeout_in_seconds = "240"
+  }
+}
