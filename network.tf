@@ -113,20 +113,20 @@ resource "oci_load_balancer_backend_set" "lb01_bes" {
 
 resource "oci_load_balancer_backend" "lb01_be01" {
   backendset_name = oci_load_balancer_backend_set.lb01_bes.name
-  ip_address = oci_core_instance.ubuntu01.private_ip
+  ip_address = oci_core_instance.ubuntu01[0].private_ip
   load_balancer_id = oci_load_balancer_load_balancer.lb01.id
   port = "80"
 }
 
 resource "oci_load_balancer_backend" "lb01_be02" {
   backendset_name = oci_load_balancer_backend_set.lb01_bes.name
-  ip_address = oci_core_instance.ubuntu02.private_ip
+  ip_address = oci_core_instance.ubuntu02[0].private_ip
   load_balancer_id = oci_load_balancer_load_balancer.lb01.id
   port = "80"
 }
 
 resource "oci_load_balancer_listener" "load_balancer_listener0" {
-  load_balancer_id         = oci_load_balancer.lb01.id
+  load_balancer_id         = oci_load_balancer_load_balancer.lb01.id
   name                     = "http"
   default_backend_set_name = oci_load_balancer_backend_set.lb01_bes.name
   port                     = 80
