@@ -129,3 +129,7 @@ resource "oci_load_balancer_listener" "load_balancer_listener0" {
     idle_timeout_in_seconds = "240"
   }
 }
+
+output "lb01" {
+  value = oci_load_balancer_load_balancer.lb01.ip_address_details
+}
