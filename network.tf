@@ -22,44 +22,44 @@ resource "oci_core_route_table" "rt01" {
 }
 
 resource "oci_core_security_list" "sl_web" {
-    compartment_id = var.COMPARTMENT_OCID
-    egress_security_rules {
-        destination = "0.0.0.0/0"
-        protocol = "6"
-        stateless = false
+  compartment_id = var.COMPARTMENT_OCID
+  egress_security_rules {
+    destination = "0.0.0.0/0"
+    protocol = "6"
+    stateless = false
+  }
+  ingress_security_rules {
+    source = "0.0.0.0/0"
+    protocol = "6"
+    stateless = false
+    tcp_options {
+      max = "22"
+      min = "22"
     }
-    ingress_security_rules {
-        source = "0.0.0.0/0"
-        protocol = "6"
-        stateless = false
-        tcp_options {
-            max = "22"
-            min = "22"
-        }
-        description = "ssh"
+    description = "ssh"
+  }
+  ingress_security_rules {
+    source = "0.0.0.0/0"
+    protocol = "6"
+    stateless = false
+    tcp_options {
+      max = "80"
+      min = "80"
     }
-    ingress_security_rules {
-        source = "0.0.0.0/0"
-        protocol = "6"
-        stateless = false
-        tcp_options {
-            max = "80"
-            min = "80"
-        }
-        description = "http-server"
+    description = "http-server"
+  }
+  ingress_security_rules {
+    source = "0.0.0.0/0"
+    protocol = "6"
+    stateless = false
+    tcp_options {
+      max = "443"
+      min = "443"
     }
-    ingress_security_rules {
-        source = "0.0.0.0/0"
-        protocol = "6"
-        stateless = false
-        tcp_options {
-            max = "443"
-            min = "443"
-        }
-        description = "https-server"
-    }
-    vcn_id = oci_core_virtual_network.vcn01.id
-    display_name = "sl_web"
+    description = "https-server"
+  }
+  vcn_id = oci_core_virtual_network.vcn01.id
+  display_name = "sl_web"
 }
 
 resource "oci_core_subnet" "subnet01" {
@@ -74,11 +74,35 @@ resource "oci_core_subnet" "subnet01" {
   prohibit_public_ip_on_vnic = false
 }
 
-resource "oci_load_balancer_load_balancer" "lb01" {
-    compartment_id = var.COMPARTMENT_OCID
-    display_name = "lb01"
-    shape = "10Mbps-Micro"
-    subnet_ids = [
-      oci_core_subnet.subnet01.id
-    ]
-}
+# resource "oci_load_balancer_load_balancer" "lb01" {
+#   compartment_id = var.COMPARTMENT_OCID
+#   display_name   = "lb01"
+#   shape          = "10Mbps-Micro"
+#   is_private     = false
+#   subnet_ids = [
+#     oci_core_subnet.subnet01.id
+#   ]
+# }
+
+# resource "oci_load_balancer_backend_set" "lb01_bes" {
+#   name             = "lb01_bes"
+#   load_balancer_id = oci_load_balancer_load_balancer.lb01.id
+#   policy           = "ROUND_ROBIN"
+#   health_checker {
+#     port                = "80"
+#     protocol            = "HTTP"
+#     response_body_regex = ".*"
+#     url_path            = "/"
+#   }
+#   session_persistence_configuration {
+#   cookie_name      = "lb01_session1"
+#   disable_fallback = true
+#   }
+# }
+
+# resource "oci_load_balancer_backend" "lb01_be" {
+#   backendset_name = oci_load_balancer_backend_set.lb01_bes.name
+#   ip_address = data.oci_core_public_ip.public_ip01.ip_address
+#   load_balancer_id = oci_load_balancer_load_balancer.lb01.id
+#   port = "80"
+# }
