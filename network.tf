@@ -89,6 +89,9 @@ resource "oci_load_balancer_load_balancer" "lb01" {
       is_public = true
     }
   ]
+  ip_addresses = [
+    data.oci_core_public_ip.public_ip01.ip_address
+  ]
   subnet_ids = [
     oci_core_subnet.subnet01.id
   ]
