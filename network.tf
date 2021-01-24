@@ -78,8 +78,6 @@ resource "oci_load_balancer_load_balancer" "lb01" {
     compartment_id = var.COMPARTMENT_OCID
     display_name = "lb01"
     shape = "10Mbps-Micro"
-    ip_addresses = data.oci_core_public_ip.public_ip01.ip_address
-    is_private = false
     subnet_ids = [
       oci_core_subnet.subnet01.id
     ]
