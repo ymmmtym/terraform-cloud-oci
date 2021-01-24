@@ -83,18 +83,13 @@ resource "oci_load_balancer_load_balancer" "lb01" {
       minimum_bandwidth_in_mbps = 10
   }
   is_private     = false
-  ip_address_details = [
-    {
-      ip_address = data.oci_core_public_ip.public_ip01.ip_address
-      is_public = true
-    }
-  ]
-  # ip_addresses = [
-  #   data.oci_core_public_ip.public_ip01.ip_address
+  # ip_address_details = [
+  #   {
+  #     ip_address = data.oci_core_public_ip.public_ip01.ip_address
+  #     is_public = true
+  #     reserved_ip = data.oci_core_public_ip.public_ip01.ip_address
+  #   }
   # ]
-  reserved_ip {
-    id = data.oci_core_public_ip.public_ip01.id
-  }
   subnet_ids = [
     oci_core_subnet.subnet01.id
   ]
