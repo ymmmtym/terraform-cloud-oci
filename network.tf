@@ -73,3 +73,12 @@ resource "oci_core_subnet" "subnet01" {
   route_table_id = oci_core_route_table.rt01.id
   prohibit_public_ip_on_vnic = false
 }
+
+resource "oci_load_balancer_load_balancer" "lb01" {
+    compartment_id = var.COMPARTMENT_OCID
+    display_name = "lb01"
+    shape = "10Mbps-Micro"
+    subnet_ids = [ 
+      oci_core_subnet.subnet01.id
+    ]
+}
