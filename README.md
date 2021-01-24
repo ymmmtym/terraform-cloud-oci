@@ -19,11 +19,11 @@
 2. Exec following command
 
 ```bash
-docker run -it -v $PWD:/app -w /app hashicorp/terraform init
-docker run -it -v $PWD:/app -w /app hashicorp/terraform plan \
+docker run -it -v $PWD:/app -w /app hashicorp/terraform:0.12.24 init
+docker run -it -v $PWD:/app -w /app hashicorp/terraform:0.12.24 plan \
   -var "PRIVATE_KEY=$(cat oci.pem)" \
   -var "SSH_PUBLIC_KEY=$(cat oci.pem.pub)"
-docker run -it -v $PWD:/app -w /app hashicorp/terraform apply \
+docker run -it -v $PWD:/app -w /app hashicorp/terraform:0.12.24 apply \
   -var "PRIVATE_KEY=$(cat oci.pem)" \
   -var "SSH_PUBLIC_KEY=$(cat oci.pem.pub)"
 ```
