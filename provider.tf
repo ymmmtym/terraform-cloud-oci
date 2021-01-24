@@ -17,3 +17,14 @@ provider "oci" {
   private_key_password = var.PRIVATE_KEY_PASSWORD
   region               = var.REGION
 }
+
+terraform {
+  backend "remote" {
+    hostname = "app.terraform.io"
+    organization = "company"
+
+    workspaces {
+      name = "terraform-cloud-oci"
+    }
+  }
+}
