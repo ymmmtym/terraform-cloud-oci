@@ -78,7 +78,7 @@ resource "oci_load_balancer_load_balancer" "lb01" {
     compartment_id = var.COMPARTMENT_OCID
     display_name = "lb01"
     shape = "10Mbps-Micro"
-    subnet_ids = [ 
+    subnet_ids = [
       oci_core_subnet.subnet01.id
     ]
 }
