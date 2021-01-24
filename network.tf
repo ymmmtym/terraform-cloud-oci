@@ -94,25 +94,25 @@ resource "oci_load_balancer_load_balancer" "lb01" {
   ]
 }
 
-# resource "oci_load_balancer_backend_set" "lb01_bes" {
-#   name             = "lb01_bes"
-#   load_balancer_id = oci_load_balancer_load_balancer.lb01.id
-#   policy           = "ROUND_ROBIN"
-#   health_checker {
-#     port                = "80"
-#     protocol            = "HTTP"
-#     response_body_regex = ".*"
-#     url_path            = "/"
-#   }
-#   session_persistence_configuration {
-#   cookie_name      = "lb01_session1"
-#   disable_fallback = true
-#   }
-# }
+resource "oci_load_balancer_backend_set" "lb01_bes" {
+  name             = "lb01_bes"
+  load_balancer_id = oci_load_balancer_load_balancer.lb01.id
+  policy           = "ROUND_ROBIN"
+  health_checker {
+    port                = "80"
+    protocol            = "HTTP"
+    response_body_regex = ".*"
+    url_path            = "/"
+  }
+  session_persistence_configuration {
+  cookie_name      = "lb01_session1"
+  disable_fallback = true
+  }
+}
 
-# resource "oci_load_balancer_backend" "lb01_be" {
-#   backendset_name = oci_load_balancer_backend_set.lb01_bes.name
-#   ip_address = data.oci_core_public_ip.public_ip01.ip_address
-#   load_balancer_id = oci_load_balancer_load_balancer.lb01.id
-#   port = "80"
-# }
+resource "oci_load_balancer_backend" "lb01_be" {
+  backendset_name = oci_load_balancer_backend_set.lb01_bes.name
+  ip_address = data.oci_core_public_ip.public_ip01.ip_address
+  load_balancer_id = oci_load_balancer_load_balancer.lb01.id
+  port = "80"
+}
