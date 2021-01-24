@@ -55,5 +55,3 @@ output "ubuntu01" {
 output "ubuntu02" {
   value = oci_core_instance.ubuntu02.*.public_ip
 }
-
-# assing public ip to vnic of ubuntu01
