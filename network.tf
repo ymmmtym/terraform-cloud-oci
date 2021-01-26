@@ -82,10 +82,10 @@ resource "oci_load_balancer_load_balancer" "lb01" {
       maximum_bandwidth_in_mbps = 10
       minimum_bandwidth_in_mbps = 10
   }
-  is_private     = false
-  reserved_ips {
-    id = data.oci_core_public_ip.public_ip01.ip_address
-  }
+  is_private     = true
+  # reserved_ips {
+  #   id = data.oci_core_public_ip.public_ip01.ip_address
+  # }
   subnet_ids = [
     oci_core_subnet.subnet01.id
   ]
