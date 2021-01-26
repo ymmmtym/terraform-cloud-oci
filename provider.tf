@@ -1,13 +1,13 @@
-variable "TENANCY_OCID" {}
-variable "USER_OCID" {}
-variable "FINGERPRINT" {}
-variable "PRIVATE_KEY" {}
-variable "PRIVATE_KEY_PASSWORD" {}
-variable "REGION" {
+variable TENANCY_OCID {}
+variable USER_OCID {}
+variable FINGERPRINT {}
+variable PRIVATE_KEY {}
+variable PRIVATE_KEY_PASSWORD {}
+variable REGION {
   default = "ap-tokyo-1"
 }
-variable "COMPARTMENT_OCID" {}
-variable "SSH_PUBLIC_KEY" {}
+variable COMPARTMENT_OCID {}
+variable SSH_PUBLIC_KEY {}
 
 provider "oci" {
   tenancy_ocid         = var.TENANCY_OCID
