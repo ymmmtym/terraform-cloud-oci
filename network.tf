@@ -129,7 +129,7 @@ resource "oci_load_balancer_listener" "load_balancer_listener0" {
   protocol                 = "HTTP"
 
   connection_configuration {
-    idle_timeout_in_seconds = "240"
+    idle_timeout_in_seconds = "120"
   }
 }
 
