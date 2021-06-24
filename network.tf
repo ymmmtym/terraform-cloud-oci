@@ -58,6 +58,28 @@ resource "oci_core_security_list" "sl_web" {
     }
     description = "https-server"
   }
+  ingress_security_rules {
+    description = "kubernetes"
+    protocol    = "17"
+    source      = "192.168.0.0/16"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+    udp_options {
+      max = 8472
+      min = 8472
+    }
+  }
+  ingress_security_rules {
+    description = "kubernetes"
+    protocol    = "6"
+    source      = "192.168.0.0/16"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+    tcp_options {
+      max = 6443
+      min = 6443
+    }
+  }
   vcn_id       = oci_core_virtual_network.vcn01.id
   display_name = "sl_web"
 }
