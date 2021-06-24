@@ -1,10 +1,3 @@
-variable "INSTANCE_SHAPE" {
-  default = "VM.Standard.E2.1.Micro"
-}
-variable "INSTANCE_SOURCE_OCID" {
-  default = "ocid1.image.oc1.ap-tokyo-1.aaaaaaaat4kfe427svas2tocgp3sz6py6hr3od7tgsohuw43lm3fl3gcioiq"
-}
-
 resource "oci_core_instance" "ubuntu01" {
   count               = "1"
   availability_domain = oci_core_subnet.subnet01.availability_domain
