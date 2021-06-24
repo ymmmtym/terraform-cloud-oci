@@ -6,20 +6,20 @@ variable "INSTANCE_SOURCE_OCID" {
 }
 
 resource "oci_core_instance" "ubuntu01" {
-  count = "1"
+  count               = "1"
   availability_domain = oci_core_subnet.subnet01.availability_domain
-  compartment_id = var.COMPARTMENT_OCID
-  shape = var.INSTANCE_SHAPE
-  display_name = "ubuntu01"
+  compartment_id      = var.COMPARTMENT_OCID
+  shape               = var.INSTANCE_SHAPE
+  display_name        = "ubuntu01"
   create_vnic_details {
-    subnet_id = oci_core_subnet.subnet01.id
-    private_ip = "192.168.0.2"
+    subnet_id        = oci_core_subnet.subnet01.id
+    private_ip       = "192.168.0.2"
     display_name     = "vnic01"
     assign_public_ip = true
     hostname_label   = "ubuntu01"
   }
   source_details {
-    source_id = var.INSTANCE_SOURCE_OCID
+    source_id   = var.INSTANCE_SOURCE_OCID
     source_type = "image"
   }
   metadata = {
@@ -27,20 +27,20 @@ resource "oci_core_instance" "ubuntu01" {
   }
 }
 resource "oci_core_instance" "ubuntu02" {
-  count = "1"
+  count               = "1"
   availability_domain = oci_core_subnet.subnet01.availability_domain
-  compartment_id = var.COMPARTMENT_OCID
-  shape = var.INSTANCE_SHAPE
-  display_name = "ubuntu02"
+  compartment_id      = var.COMPARTMENT_OCID
+  shape               = var.INSTANCE_SHAPE
+  display_name        = "ubuntu02"
   create_vnic_details {
-      subnet_id = oci_core_subnet.subnet01.id
-      private_ip = "192.168.0.3"
-      display_name     = "vnic01"
-      assign_public_ip = true
-      hostname_label   = "ubuntu02"
+    subnet_id        = oci_core_subnet.subnet01.id
+    private_ip       = "192.168.0.3"
+    display_name     = "vnic01"
+    assign_public_ip = true
+    hostname_label   = "ubuntu02"
   }
   source_details {
-    source_id = var.INSTANCE_SOURCE_OCID
+    source_id   = var.INSTANCE_SOURCE_OCID
     source_type = "image"
   }
   metadata = {
