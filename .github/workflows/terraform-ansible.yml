@@ -46,12 +46,10 @@ jobs:
         with:
           key: ${{ secrets.ID_RSA_ORACLE }} 
           known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
-      # - name: Set up SSH key
-      #   run: |
-      #     echo "$SECRET_KEY" > "$ANSIBLE_SSH_PRIVATE_KEY_FILE"
-      #     chmod 400 "$ANSIBLE_SSH_PRIVATE_KEY_FILE"
+      - name: Get terraform output
+        run: terraform-bin output -json > terraform.tfoutput
       - name: Run ansible playbook
         run: ansible-playbook site.yml
-      - name: Debug
-        if: ${{ always() }}
-        uses: mxschmitt/action-tmate@v3
+      # - name: Debug
+      #   if: ${{ always() }}
+      #   uses: mxschmitt/action-tmate@v3
