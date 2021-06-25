@@ -2,4 +2,7 @@
 /*.tfstate
 /*.tfstate.backup
 /.terraform*
+
 /oci.pem*
+
+.venv/
