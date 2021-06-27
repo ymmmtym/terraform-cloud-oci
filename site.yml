@@ -1,0 +1,6 @@
+---
+- hosts: ubuntu
+  tasks:
+    - name: ping
+      ping: 
+      tags: ping

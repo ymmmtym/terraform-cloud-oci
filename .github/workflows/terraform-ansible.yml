@@ -1,0 +1,55 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  terraform-ansible:
+    name: Terraform and Ansible
+    runs-on: ubuntu-latest
+    env:
+      PYTHON_VERSION: 3.9
+      # SECRET_KEY: ${{ secrets.ID_RSA_ORACLE }}
+      # ANSIBLE_SSH_PRIVATE_KEY_FILE: ~/.ssh/id_rsa_oracle
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -check -recursive
+      - name: Terraform Init
+        id: init
+        run: terraform init
+      - name: Terraform Plan
+        id: plan
+        if: github.event_name == 'pull_request'
+        run: terraform plan
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -auto-approve
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install requirements
+        run: |
+          pip install -U pip
+          pip install -r requirements.txt
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.ID_RSA_ORACLE }} 
+          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+      - name: Get terraform output
+        run: terraform-bin output -json > terraform.tfoutput
+      - name: Run ansible playbook
+        run: ansible-playbook site.yml
+      # - name: Debug
+      #   if: ${{ always() }}
+      #   uses: mxschmitt/action-tmate@v3
