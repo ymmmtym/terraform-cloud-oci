@@ -6,7 +6,7 @@
 import json
 
 
-TERRAFORM_TFOUTPUT_PATH = './terraform.tfoutput'
+TERRAFORM_TFOUTPUT_PATH = './terraform/terraform.tfoutput'
 INVENTORY = {'all': {'hosts': []}, '_meta': {'hostvars': {}}}
 TFOUTPUT = json.load(open(TERRAFORM_TFOUTPUT_PATH, 'r'))
 

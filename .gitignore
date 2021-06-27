@@ -1,9 +1,7 @@
-/*.tfvars
-/*.tfstate
-/*.tfstate.backup
-/*.tfoutput
-/.terraform*
-
-/oci.pem*
+*.tfvars
+*.tfstate*
+*.tfoutput
+.terraform*
+oci.pem*
 
 .venv/
