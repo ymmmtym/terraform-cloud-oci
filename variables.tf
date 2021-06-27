@@ -18,5 +18,5 @@ variable "INSTANCE_SOURCE_OCID" {
   default = "ocid1.image.oc1.ap-tokyo-1.aaaaaaaat4kfe427svas2tocgp3sz6py6hr3od7tgsohuw43lm3fl3gcioiq"
 }
 variable "VOLUME_ATTACHMENT_ATTACHMENT_TYPE" {
-  default = "iscsi"
+  default = "paravirtualized"
 }
