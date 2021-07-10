@@ -1,0 +1,39 @@
+---
+# tasks file for roles/k3s
+- name: Allow ports of iptables
+  iptables:
+    chain: INPUT
+    protocol: '{{ item.protocol }}'
+    destination_port: '{{ item.port }}'
+    ctstate: NEW
+    jump: ACCEPT
+    comment: Accept new SSH connections.
+  loop:
+    - protocol: tcp
+      port: 80
+    - protocol: tcp
+      port: 443
+    - protocol: tcp
+      port: 6443
+    - protocol: udp
+      port: 8472
+
+- name: Install k3s server
+  block:
+    - name: Install k3s
+      shell: curl -sfL https://get.k3s.io | sh -
+    - name: Get token
+      command: cat /var/lib/rancher/k3s/server/node-token
+      register: token
+    - name: Get URL
+      set_fact:
+        url: ansible_ens33.ipv4.address
+  when: role == 'server'
+
+- name: Install k3s agent
+  shell: -<
+    curl -sfL https://get.k3s.io | 
+    K3S_URL={{ url }}:6443 \
+    K3S_TOKEN={{ token }} \
+    sudo sh -
+  when: role == 'agent'

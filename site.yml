@@ -1,6 +1,4 @@
 ---
 - hosts: ubuntu
-  tasks:
-    - name: ping
-      ping: 
-      tags: ping
+  roles:
+    - role: k3s
