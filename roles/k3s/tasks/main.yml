@@ -1,0 +1,62 @@
+---
+# tasks file for roles/k3s
+- name: Allow ports of iptables
+  iptables:
+    chain: INPUT
+    protocol: '{{ item.protocol }}'
+    destination_port: '{{ item.port }}'
+    ctstate: NEW
+    jump: ACCEPT
+    comment: Accept new SSH connections.
+  loop:
+    - protocol: tcp
+      port: 80
+    - protocol: tcp
+      port: 443
+    - protocol: tcp
+      port: 6443
+    - protocol: udp
+      port: 8472
+  become: yes
+
+- name: Install k3s server
+  block:
+    - name: Install k3s
+      shell: curl -sfL https://get.k3s.io | sh -
+      args:
+        creates: /var/lib/rancher/k3s/server/node-token
+    - name: Get token
+      command: cat /var/lib/rancher/k3s/server/node-token
+      register: token_result
+      check_mode: no
+      changed_when: false
+      failed_when: false
+      become: yes
+    - name: Get URL
+      set_fact:
+        url: "{{ ansible_default_ipv4.address }}"
+        token: "{{ token_result.stdout }}"
+      delegate_to: "{{ item }}"
+      delegate_facts: true
+      with_items: "{{ groups['all'] }}"
+      check_mode: no
+  when: role == 'server'
+  tags: install
+
+- name: Install k3s agent
+  shell: curl -sfL https://get.k3s.io | sh -
+  environment:
+    K3S_URL: "https://{{ url }}:6443"
+    K3S_TOKEN: "{{ token }}"
+  when: role == 'agent'
+  tags: install
+
+- name: Uninstall k3s server
+  command: /usr/local/bin/k3s-uninstall.sh
+  when: role == 'server'
+  tags: never,uninstall
+
+- name: Uninstall k3s agent
+  command: /usr/local/bin/k3s-agent-uninstall.sh
+  when: role == 'agent'
+  tags: never,uninstall
