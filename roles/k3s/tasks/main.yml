@@ -17,23 +17,46 @@
       port: 6443
     - protocol: udp
       port: 8472
+  become: yes
 
 - name: Install k3s server
   block:
     - name: Install k3s
       shell: curl -sfL https://get.k3s.io | sh -
+      args:
+        creates: /var/lib/rancher/k3s/server/node-token
     - name: Get token
       command: cat /var/lib/rancher/k3s/server/node-token
-      register: token
+      register: token_result
+      check_mode: no
+      changed_when: false
+      failed_when: false
+      become: yes
     - name: Get URL
       set_fact:
-        url: ansible_ens33.ipv4.address
+        url: "{{ ansible_default_ipv4.address }}"
+        token: "{{ token_result.stdout }}"
+      delegate_to: "{{ item }}"
+      delegate_facts: true
+      with_items: "{{ groups['all'] }}"
+      check_mode: no
   when: role == 'server'
+  tags: install
 
 - name: Install k3s agent
-  shell: -<
-    curl -sfL https://get.k3s.io | 
-    K3S_URL={{ url }}:6443 \
-    K3S_TOKEN={{ token }} \
-    sudo sh -
+  shell: curl -sfL https://get.k3s.io | sh -
+  environment:
+    K3S_URL: "https://{{ url }}:6443"
+    K3S_TOKEN: "{{ token }}"
   when: role == 'agent'
+  tags: install
+
+- name: Uninstall k3s server
+  command: /usr/local/bin/k3s-uninstall.sh
+  when: role == 'server'
+  tags: never,uninstall
+
+- name: Uninstall k3s agent
+  command: /usr/local/bin/k3s-agent-uninstall.sh
+  when: role == 'agent'
+  tags: never,uninstall

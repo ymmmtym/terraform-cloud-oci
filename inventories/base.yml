@@ -6,5 +6,5 @@ all:
         ubuntu02:
       vars:
         ansible_ssh_user: ubuntu
-        # ansible_ssh_private_key_file: ~/.ssh/id_rsa_oracle
-  
+        # ansible_ssh_private_key_file: ~/.ssh/id_rsa_oracle # for dev env
+
