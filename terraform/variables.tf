@@ -12,7 +12,7 @@ variable "AVAILABILITY_ZONE" {
 variable "COMPARTMENT_OCID" {}
 variable "SSH_PUBLIC_KEY" {}
 variable "INSTANCE_SHAPE" {
-  default = "VM.Standard.E2.1.Micro"
+  default = "VM.Standard.A1.Flex"
 }
 variable "INSTANCE_SOURCE_OCID" {
   default = "ocid1.image.oc1.ap-tokyo-1.aaaaaaaat4kfe427svas2tocgp3sz6py6hr3od7tgsohuw43lm3fl3gcioiq"

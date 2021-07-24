@@ -40,6 +40,48 @@ resource "oci_core_instance" "ubuntu02" {
     ssh_authorized_keys = var.SSH_PUBLIC_KEY
   }
 }
+resource "oci_core_instance" "ubuntu03" {
+  count               = "1"
+  availability_domain = oci_core_subnet.subnet01.availability_domain
+  compartment_id      = var.COMPARTMENT_OCID
+  shape               = var.INSTANCE_SHAPE
+  display_name        = "ubuntu03"
+  create_vnic_details {
+    subnet_id        = oci_core_subnet.subnet01.id
+    private_ip       = "192.168.0.4"
+    display_name     = "vnic01"
+    assign_public_ip = true
+    hostname_label   = "ubuntu03"
+  }
+  source_details {
+    source_id   = var.INSTANCE_SOURCE_OCID
+    source_type = "image"
+  }
+  metadata = {
+    ssh_authorized_keys = var.SSH_PUBLIC_KEY
+  }
+}
+resource "oci_core_instance" "ubuntu04" {
+  count               = "1"
+  availability_domain = oci_core_subnet.subnet01.availability_domain
+  compartment_id      = var.COMPARTMENT_OCID
+  shape               = var.INSTANCE_SHAPE
+  display_name        = "ubuntu04"
+  create_vnic_details {
+    subnet_id        = oci_core_subnet.subnet01.id
+    private_ip       = "192.168.0.5"
+    display_name     = "vnic01"
+    assign_public_ip = true
+    hostname_label   = "ubuntu04"
+  }
+  source_details {
+    source_id   = var.INSTANCE_SOURCE_OCID
+    source_type = "image"
+  }
+  metadata = {
+    ssh_authorized_keys = var.SSH_PUBLIC_KEY
+  }
+}
 
 # output ip addresses
 output "ubuntu01" {
@@ -47,4 +89,10 @@ output "ubuntu01" {
 }
 output "ubuntu02" {
   value = oci_core_instance.ubuntu02.*.public_ip
+}
+output "ubuntu03" {
+  value = oci_core_instance.ubuntu03.*.public_ip
+}
+output "ubuntu04" {
+  value = oci_core_instance.ubuntu04.*.public_ip
 }
