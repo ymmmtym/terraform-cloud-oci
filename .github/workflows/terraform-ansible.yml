@@ -25,16 +25,15 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.ID_RSA_ORACLE }}
+          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'pull_request'
         run: terraform plan
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.ID_RSA_ORACLE }} 
-          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve
