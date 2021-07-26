@@ -20,7 +20,7 @@ resource "oci_core_instance" "ubuntu" {
 }
 
 resource "oci_core_instance" "oracle_linux" {
-  count               = "1"
+  count               = 4
   availability_domain = oci_core_subnet.subnet01.availability_domain
   compartment_id      = var.COMPARTMENT_OCID
   shape               = "VM.Standard.A1.Flex"
