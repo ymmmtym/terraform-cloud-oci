@@ -29,52 +29,52 @@ resource "oci_core_security_list" "sl_web" {
     stateless   = false
   }
   ingress_security_rules {
-    source    = "0.0.0.0/0"
-    protocol  = "6"
-    stateless = false
+    source      = "0.0.0.0/0"
+    protocol    = "6"
+    stateless   = false
+    description = "ssh"
     tcp_options {
       max = "22"
       min = "22"
     }
-    description = "ssh"
   }
   ingress_security_rules {
-    source    = "0.0.0.0/0"
-    protocol  = "6"
-    stateless = false
+    source      = "0.0.0.0/0"
+    protocol    = "6"
+    stateless   = false
+    description = "http"
     tcp_options {
       max = "80"
       min = "80"
     }
-    description = "http-server"
   }
   ingress_security_rules {
-    source    = "0.0.0.0/0"
-    protocol  = "6"
-    stateless = false
+    source      = "0.0.0.0/0"
+    protocol    = "6"
+    stateless   = false
+    description = "https"
     tcp_options {
       max = "443"
       min = "443"
     }
-    description = "https-server"
   }
   ingress_security_rules {
-    description = "kubernetes"
     protocol    = "17"
     source      = "192.168.0.0/16"
     source_type = "CIDR_BLOCK"
     stateless   = false
+    description = "kubernetes"
     udp_options {
       max = 8472
       min = 8472
     }
   }
   ingress_security_rules {
-    description = "kubernetes"
     protocol    = "6"
     source      = "192.168.0.0/16"
     source_type = "CIDR_BLOCK"
     stateless   = false
+    description = "kubernetes"
     tcp_options {
       max = 6443
       min = 6443
@@ -131,14 +131,14 @@ resource "oci_load_balancer_backend_set" "lb01_bes" {
 
 resource "oci_load_balancer_backend" "lb01_be01" {
   backendset_name  = oci_load_balancer_backend_set.lb01_bes.name
-  ip_address       = oci_core_instance.ubuntu01[0].private_ip
+  ip_address       = oci_core_instance.ubuntu.0.private_ip
   load_balancer_id = oci_load_balancer_load_balancer.lb01.id
   port             = "80"
 }
 
 resource "oci_load_balancer_backend" "lb01_be02" {
   backendset_name  = oci_load_balancer_backend_set.lb01_bes.name
-  ip_address       = oci_core_instance.ubuntu02[0].private_ip
+  ip_address       = oci_core_instance.ubuntu.1.private_ip
   load_balancer_id = oci_load_balancer_load_balancer.lb01.id
   port             = "80"
 }
