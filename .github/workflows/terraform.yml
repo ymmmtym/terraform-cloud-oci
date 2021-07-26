@@ -49,6 +49,9 @@ jobs:
   #   name: Ansible
   #   runs-on: ubuntu-latest
   #   needs: terraform
+    # defaults:
+    #   run:
+    #     working-directory: ./ansible/
   #   env:
   #     PYTHON_VERSION: 3.9
   #   steps:
