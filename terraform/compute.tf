@@ -6,7 +6,7 @@ resource "oci_core_instance" "ubuntu" {
   display_name        = "ubuntu0${count.index + 1}"
   create_vnic_details {
     subnet_id        = oci_core_subnet.subnet01.id
-    display_name     = "vnic0${count.index + 1}"
+    display_name     = "ubuntu0${count.index + 1}-vnic0${count.index + 1}"
     assign_public_ip = true
     hostname_label   = "ubuntu0${count.index + 1}"
   }
@@ -33,7 +33,7 @@ resource "oci_core_instance" "oracle_linux" {
 
   create_vnic_details {
     subnet_id        = oci_core_subnet.subnet01.id
-    display_name     = "vnic0${count.index + 1}"
+    display_name     = "oracle0${count.index + 1}-vnic0${count.index + 1}"
     assign_public_ip = false
     hostname_label   = "oracle0${count.index + 1}"
   }
