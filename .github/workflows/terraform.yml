@@ -1,4 +1,5 @@
 name: Terraform
+
 on:
   push:
     branches:
@@ -6,6 +7,8 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
+
 jobs:
   terraform:
     name: Terraform
@@ -29,11 +32,11 @@ jobs:
         run: terraform init
       - name: Terraform Plan
         id: plan
-        if: github.event_name == 'pull_request'
         run: terraform plan
+        if: ${{ github.event_name == 'pull_request' }}
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve
+        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
   # ansible:
   #   name: Ansible
   #   runs-on: ubuntu-latest
