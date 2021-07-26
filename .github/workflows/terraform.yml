@@ -8,6 +8,11 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      args:
+        description: 'Args to terraform (default: show)'
+        required: true
+        default: 'show'
 
 jobs:
   terraform:
@@ -37,6 +42,9 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve
         if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+      - name: Terraform ${{ github.event.inputs.args }}
+        run: terraform ${{ github.event.inputs.args }}
+        if: ${{ github.event_name == 'workflow_dispatch' }}
   # ansible:
   #   name: Ansible
   #   runs-on: ubuntu-latest
