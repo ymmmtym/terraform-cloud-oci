@@ -15,7 +15,7 @@ resource "oci_core_instance" "ubuntu" {
     source_type = "image"
   }
   metadata = {
-    ssh_authorized_keys = var.SSH_PUBLIC_KEY
+    ssh_authorized_keys = "${var.SSH_PUBLIC_KEY}"
   }
 }
 
@@ -42,7 +42,8 @@ resource "oci_core_instance" "oracle_linux" {
     source_type = "image"
   }
   metadata = {
-    ssh_authorized_keys = var.SSH_PUBLIC_KEY
+    ssh_authorized_keys = "${var.SSH_PUBLIC_KEY}"
+    user_data           = base64encode(file("./userdata/cloud-init.yml"))
   }
 }
 
