@@ -22,7 +22,7 @@ resource "oci_core_instance" "ubuntu" {
 resource "oci_core_instance" "oracle_linux" {
   count = 1
   # count               = 4 # [TBD] Out of host capacity.
-  availability_domain = oci_core_subnet.subnet01.availability_domain
+  availability_domain = oci_core_subnet.subnet02.availability_domain
   compartment_id      = var.COMPARTMENT_OCID
   shape               = "VM.Standard.A1.Flex"
   display_name        = "oracle0${count.index + 1}"
@@ -33,7 +33,7 @@ resource "oci_core_instance" "oracle_linux" {
   }
 
   create_vnic_details {
-    subnet_id        = oci_core_subnet.subnet01.id
+    subnet_id        = oci_core_subnet.subnet02.id
     display_name     = "oracle0${count.index + 1}-vnic0${count.index + 1}"
     assign_public_ip = false
     hostname_label   = "oracle0${count.index + 1}"
