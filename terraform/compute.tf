@@ -5,10 +5,11 @@ resource "oci_core_instance" "ubuntu" {
   shape               = var.INSTANCE_SHAPE
   display_name        = "ubuntu0${count.index + 1}"
   create_vnic_details {
-    subnet_id        = oci_core_subnet.subnet01.id
-    display_name     = "ubuntu0${count.index + 1}-vnic0${count.index + 1}"
-    assign_public_ip = true
-    hostname_label   = "ubuntu0${count.index + 1}"
+    subnet_id              = oci_core_subnet.subnet01.id
+    display_name           = "ubuntu0${count.index + 1}-vnic0${count.index + 1}"
+    assign_public_ip       = true
+    skip_source_dest_check = true
+    hostname_label         = "ubuntu0${count.index + 1}"
   }
   source_details {
     source_id   = var.INSTANCE_SOURCE_OCID
@@ -16,6 +17,8 @@ resource "oci_core_instance" "ubuntu" {
   }
   metadata = {
     ssh_authorized_keys = "${var.SSH_PUBLIC_KEY}"
+    user_data           = base64encode(file("./userdata/cloud-init-ubuntu.yml"))
+
   }
 }
 
@@ -44,11 +47,18 @@ resource "oci_core_instance" "oracle_linux" {
   }
   metadata = {
     ssh_authorized_keys = "${var.SSH_PUBLIC_KEY}"
-    user_data           = base64encode(file("./userdata/cloud-init.yml"))
+    user_data           = base64encode(file("./userdata/cloud-init-oracle.yml"))
   }
+  depends_on = [
+    oci_core_instance.ubuntu
+  ]
 }
 
 # output ip addresses
 output "public_ips" {
   value = oci_core_instance.ubuntu.*.public_ip
+}
+
+output "private_ips" {
+  value = oci_core_instance.ubuntu.*.private_ip
 }

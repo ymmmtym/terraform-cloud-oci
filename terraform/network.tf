@@ -27,7 +27,7 @@ resource "oci_core_route_table" "rt02" {
   display_name   = "rt02"
   route_rules {
     destination       = "0.0.0.0/0"
-    network_entity_id = oci_core_instance.ubuntu.0.id
+    network_entity_id = data.oci_core_private_ips.ubuntu01_private_ips.private_ips.0.id
   }
 }
 
@@ -35,7 +35,7 @@ resource "oci_core_security_list" "sl01" {
   compartment_id = var.COMPARTMENT_OCID
   egress_security_rules {
     destination = "0.0.0.0/0"
-    protocol    = "1"
+    protocol    = "all"
     stateless   = false
     description = "all"
   }
@@ -51,7 +51,7 @@ resource "oci_core_security_list" "sl01" {
   }
   ingress_security_rules {
     source    = "192.168.0.0/16"
-    protocol  = "1"
+    protocol  = "all"
     stateless = false
   }
   vcn_id       = oci_core_virtual_network.vcn01.id
@@ -61,13 +61,13 @@ resource "oci_core_security_list" "sl02" {
   compartment_id = var.COMPARTMENT_OCID
   egress_security_rules {
     destination = "0.0.0.0/0"
-    protocol    = "1"
+    protocol    = "all"
     stateless   = false
     description = "all"
   }
   ingress_security_rules {
     source      = "192.168.0.0/16"
-    protocol    = "1"
+    protocol    = "all"
     stateless   = false
     description = "all"
   }
@@ -78,8 +78,8 @@ resource "oci_core_security_list" "sl02" {
 resource "oci_core_subnet" "subnet01" {
   availability_domain        = lookup(data.oci_identity_availability_domains.ads.availability_domains[0], "name")
   cidr_block                 = "192.168.0.0/24"
-  display_name               = "subnet01(Public)"
-  dns_label                  = "vcn01"
+  display_name               = "subnet01"
+  dns_label                  = "public"
   security_list_ids          = [oci_core_security_list.sl01.id]
   compartment_id             = var.COMPARTMENT_OCID
   vcn_id                     = oci_core_virtual_network.vcn01.id
@@ -89,8 +89,8 @@ resource "oci_core_subnet" "subnet01" {
 resource "oci_core_subnet" "subnet02" {
   availability_domain        = lookup(data.oci_identity_availability_domains.ads.availability_domains[0], "name")
   cidr_block                 = "192.168.1.0/24"
-  display_name               = "subnet02(Private)"
-  dns_label                  = "vcn01"
+  display_name               = "subnet02"
+  dns_label                  = "private"
   security_list_ids          = [oci_core_security_list.sl02.id]
   compartment_id             = var.COMPARTMENT_OCID
   vcn_id                     = oci_core_virtual_network.vcn01.id
