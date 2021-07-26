@@ -47,6 +47,12 @@ resource "oci_core_instance" "oracle01" {
   compartment_id      = var.COMPARTMENT_OCID
   shape               = "VM.Standard.A1.Flex"
   display_name        = "oracle01"
+
+  shape_config {
+    ocpus         = 1
+    memory_in_gbs = 6
+  }
+
   create_vnic_details {
     subnet_id        = oci_core_subnet.subnet01.id
     display_name     = "vnic01"
@@ -54,7 +60,7 @@ resource "oci_core_instance" "oracle01" {
     hostname_label   = "oracle01"
   }
   source_details {
-    source_id   = "ocid1.instance.oc1.ap-tokyo-1.anxhiljrhki6czac4lecpd2n47n2i5vvby5d2zd23oln3qchzqt5pewbiatq"
+    source_id   = "ocid1.image.oc1.ap-tokyo-1.aaaaaaaakjxlsfb6ltwp7lqhr4owgvwvwtgskjfcwoium6pr35lp2hw4guvq"
     source_type = "image"
   }
   metadata = {
