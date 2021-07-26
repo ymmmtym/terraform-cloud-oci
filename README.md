@@ -1,6 +1,6 @@
 # terraform-cloud-oci
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8001200a311a4087a74660c085a11989)](https://www.codacy.com/manual/ymmmtym/terraform-cloud-oci?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ymmmtym/terraform-cloud-oci&amp;utm_campaign=Badge_Grade)
+[![Terraform](https://github.com/ymmmtym/terraform-cloud-oci/actions/workflows/terraform.yml/badge.svg)](https://github.com/ymmmtym/terraform-cloud-oci/actions/workflows/terraform.yml) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8001200a311a4087a74660c085a11989)](https://www.codacy.com/manual/ymmmtym/terraform-cloud-oci?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ymmmtym/terraform-cloud-oci&amp;utm_campaign=Badge_Grade)
 
 ## Usage
 
