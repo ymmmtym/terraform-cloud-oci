@@ -2,6 +2,7 @@
 *.tfstate*
 *.tfoutput
 .terraform*
+.terraformrc
 oci.pem*
 
 .venv/
