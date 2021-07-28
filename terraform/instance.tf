@@ -27,7 +27,7 @@ resource "oci_core_instance" "ubuntu" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/provisioning-ubuntu.sh",
-      "/tmp/provisioning-ubuntu.sh ${oci_core_subnet.subnet02.cidr_block} oracle01.private.vcn01.oraclevcn.com",
+      "/tmp/provisioning-ubuntu.sh ${var.CIDR_SUBNET02} oracle01.private.vcn01.oraclevcn.com",
     ]
   }
 }

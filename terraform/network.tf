@@ -1,5 +1,5 @@
 resource "oci_core_virtual_network" "vcn01" {
-  cidr_block     = "192.168.0.0/16"
+  cidr_block     = var.CIDR_VCN01
   compartment_id = var.COMPARTMENT_OCID
   display_name   = "vcn01"
   dns_label      = "vcn01"
@@ -60,7 +60,7 @@ resource "oci_core_security_list" "sl01" {
     }
   }
   ingress_security_rules {
-    source      = "192.168.0.0/16"
+    source      = var.CIDR_VCN01
     protocol    = "all"
     stateless   = false
     description = "all vcn01"
@@ -77,7 +77,7 @@ resource "oci_core_security_list" "sl02" {
     description = "all"
   }
   ingress_security_rules {
-    source      = "192.168.0.0/16"
+    source      = var.CIDR_VCN01
     protocol    = "all"
     stateless   = false
     description = "all vcn01"
@@ -89,7 +89,7 @@ resource "oci_core_security_list" "sl02" {
 
 resource "oci_core_subnet" "subnet01" {
   availability_domain        = lookup(data.oci_identity_availability_domains.ads.availability_domains[0], "name")
-  cidr_block                 = "192.168.0.0/24"
+  cidr_block                 = var.CIDR_SUBNET01
   display_name               = "subnet01"
   dns_label                  = "public"
   security_list_ids          = [oci_core_security_list.sl01.id]
@@ -100,7 +100,7 @@ resource "oci_core_subnet" "subnet01" {
 }
 resource "oci_core_subnet" "subnet02" {
   availability_domain        = lookup(data.oci_identity_availability_domains.ads.availability_domains[0], "name")
-  cidr_block                 = "192.168.1.0/24"
+  cidr_block                 = var.CIDR_SUBNET02
   display_name               = "subnet02"
   dns_label                  = "private"
   security_list_ids          = [oci_core_security_list.sl02.id]

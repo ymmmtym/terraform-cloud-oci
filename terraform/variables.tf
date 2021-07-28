@@ -21,3 +21,12 @@ variable "INSTANCE_SOURCE_OCID" {
 variable "VOLUME_ATTACHMENT_ATTACHMENT_TYPE" {
   default = "paravirtualized"
 }
+variable "CIDR_VCN01" {
+  default = "192.168.0.0/16"
+}
+variable "CIDR_SUBNET01" {
+  default = "192.168.0.0/24"
+}
+variable "CIDR_SUBNET02" {
+  default = "192.168.1.0/24"
+}
