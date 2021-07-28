@@ -2,6 +2,7 @@
 # vim:syntax=yaml
 runcmd:
 - sudo iptables -F
+- sudo yum update -y
 - sudo yum install -y docker-engine
 - sudo systemctl start docker
 - sudo systemctl enable docker
