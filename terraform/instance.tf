@@ -17,7 +17,18 @@ resource "oci_core_instance" "ubuntu" {
   }
   metadata = {
     ssh_authorized_keys = "${var.SSH_PUBLIC_KEY}"
-    user_data           = base64encode(file("./userdata/cloud-init-ubuntu.yml"))
+    # user_data           = base64encode(file("./userdata/cloud-init-ubuntu.yml"))
+  }
+  provisioner "file" {
+    source      = "provisioning/provisioning-ubuntu.sh"
+    destination = "/tmp/provisioning-ubuntu.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/provisioning-ubuntu.sh",
+      "/tmp/provisioning-ubuntu.sh ${oci_core_subnet.subnet02.cidr_block} oracle01.private.vcn01.oraclevcn.com",
+    ]
   }
 }
 
@@ -46,7 +57,18 @@ resource "oci_core_instance" "oracle_linux" {
   }
   metadata = {
     ssh_authorized_keys = "${var.SSH_PUBLIC_KEY}"
-    user_data           = base64encode(file("./userdata/cloud-init-oracle.yml"))
+    # user_data           = base64encode(file("./userdata/cloud-init-oracle.yml"))
+  }
+  provisioner "file" {
+    source      = "provisioning/provisioning-oracle-linux.sh"
+    destination = "/tmp/provisioning-oracle-linux.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/provisioning-oracle-linux.sh",
+      "/tmp/provisioning-oracle-linux.sh",
+    ]
   }
   depends_on = [
     oci_core_instance.ubuntu
