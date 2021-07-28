@@ -3,6 +3,7 @@ variable "USER_OCID" {}
 variable "FINGERPRINT" {}
 variable "PRIVATE_KEY" {}
 variable "PRIVATE_KEY_PASSWORD" {}
+variable "PRIVATE_KEY_INSTANCE" {}
 variable "REGION" {
   default = "ap-tokyo-1"
 }

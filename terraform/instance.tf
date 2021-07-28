@@ -18,12 +18,11 @@ resource "oci_core_instance" "ubuntu" {
   metadata = {
     ssh_authorized_keys = "${var.SSH_PUBLIC_KEY}"
     user_data           = base64encode(file("./userdata/cloud-init-ubuntu.yml"))
-
   }
 }
 
 resource "oci_core_instance" "oracle_linux" {
-  count = 1
+  count = 2
   # count               = 4 # [TBD] Out of host capacity.
   availability_domain = oci_core_subnet.subnet02.availability_domain
   compartment_id      = var.COMPARTMENT_OCID
@@ -56,9 +55,11 @@ resource "oci_core_instance" "oracle_linux" {
 
 # output ip addresses
 output "public_ips" {
-  value = oci_core_instance.ubuntu.*.public_ip
+  value       = oci_core_instance.ubuntu.*.public_ip
+  description = "Public IPs of bastion instances"
 }
 
 output "private_ips" {
-  value = oci_core_instance.ubuntu.*.private_ip
+  value       = concat(oci_core_instance.ubuntu.*.private_ip, oci_core_instance.oracle_linux.*.private_ip)
+  description = "Private IPs of all instances"
 }

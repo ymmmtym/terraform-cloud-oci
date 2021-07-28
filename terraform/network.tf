@@ -50,9 +50,10 @@ resource "oci_core_security_list" "sl01" {
     }
   }
   ingress_security_rules {
-    source    = "192.168.0.0/16"
-    protocol  = "all"
-    stateless = false
+    source      = "192.168.0.0/16"
+    protocol    = "all"
+    stateless   = false
+    description = "all vcn01"
   }
   vcn_id       = oci_core_virtual_network.vcn01.id
   display_name = "sl01"
@@ -69,7 +70,8 @@ resource "oci_core_security_list" "sl02" {
     source      = "192.168.0.0/16"
     protocol    = "all"
     stateless   = false
-    description = "all"
+    description = "all vcn01"
+
   }
   vcn_id       = oci_core_virtual_network.vcn01.id
   display_name = "sl02"
