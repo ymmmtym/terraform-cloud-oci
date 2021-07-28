@@ -32,5 +32,8 @@ resource "rke_cluster" "cluster" {
   network {
     plugin = "flannel"
   }
+  restore {
+    restore = false
+  }
   delay_on_creation = 90
 }
