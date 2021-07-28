@@ -50,6 +50,16 @@ resource "oci_core_security_list" "sl01" {
     }
   }
   ingress_security_rules {
+    source      = "0.0.0.0/0"
+    protocol    = "6"
+    stateless   = false
+    description = "Kubernetes API server"
+    tcp_options {
+      max = "6443"
+      min = "6443"
+    }
+  }
+  ingress_security_rules {
     source      = "192.168.0.0/16"
     protocol    = "all"
     stateless   = false
