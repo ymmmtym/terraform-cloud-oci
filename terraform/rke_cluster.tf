@@ -1,39 +1,57 @@
+provider "rke" {
+  debug = true
+}
 resource "rke_cluster" "cluster" {
   nodes {
-    address = oci_core_instance.oracle_linux.0.private_ip
-    user    = "opc"
-    ssh_key = var.PRIVATE_KEY_INSTANCE
-    role    = ["controlplane", "worker", "etcd"]
+    address          = oci_core_instance.kubernetes.0.public_ip
+    internal_address = oci_core_instance.kubernetes.0.private_ip
+    user             = "ubuntu"
+    ssh_key          = var.PRIVATE_KEY_INSTANCE
+    role             = ["controlplane", "worker", "etcd"]
   }
   nodes {
-    address = oci_core_instance.oracle_linux.1.private_ip
-    user    = "opc"
-    ssh_key = var.PRIVATE_KEY_INSTANCE
-    role    = ["worker"]
+    address          = oci_core_instance.kubernetes.1.public_ip
+    internal_address = oci_core_instance.kubernetes.1.private_ip
+    user             = "ubuntu"
+    ssh_key          = var.PRIVATE_KEY_INSTANCE
+    role             = ["worker"]
   }
-  # nodes { # [TBD] Out of host capacity.
-  #   address = oci_core_instance.oracle_linux.2.private_ip
-  #   user    = "opc"
-  #   ssh_key = var.PRIVATE_KEY_INSTANCE
-  #   role    = ["worker"]
-  # }
-  # nodes { # [TBD] Out of host capacity.
-  #   address = oci_core_instance.oracle_linux.3.private_ip
-  #   user    = "opc"
-  #   ssh_key = var.PRIVATE_KEY_INSTANCE
-  #   role    = ["worker"]
-  # }
-  bastion_host {
-    address        = oci_core_instance.ubuntu.0.public_ip
-    user           = "ubuntu"
-    ssh_agent_auth = false
-    ssh_key        = var.PRIVATE_KEY_INSTANCE
+  nodes {
+    address          = oci_core_instance.kubernetes.2.public_ip
+    internal_address = oci_core_instance.kubernetes.2.private_ip
+    user             = "ubuntu"
+    ssh_key          = var.PRIVATE_KEY_INSTANCE
+    role             = ["worker"]
+  }
+  nodes {
+    address          = oci_core_instance.kubernetes.3.public_ip
+    internal_address = oci_core_instance.kubernetes.3.private_ip
+    user             = "ubuntu"
+    ssh_key          = var.PRIVATE_KEY_INSTANCE
+    role             = ["worker"]
   }
   network {
     plugin = "flannel"
   }
-  restore {
-    restore = false
+  provisioner "remote-exec" {
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      host        = oci_core_instance.kubernetes.0.public_ip
+      private_key = var.PRIVATE_KEY_INSTANCE
+    }
+    scripts = [
+      "provisioning/install-kubectl.sh",
+    ]
   }
-  delay_on_creation = 90
+  provisioner "file" {
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      host        = oci_core_instance.kubernetes.0.public_ip
+      private_key = var.PRIVATE_KEY_INSTANCE
+    }
+    content     = rke_cluster.cluster.kube_config_yaml
+    destination = "~/.kube/config"
+  }
 }

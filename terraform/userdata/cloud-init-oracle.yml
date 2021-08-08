@@ -6,4 +6,4 @@ runcmd:
 - sudo yum install -y docker-engine
 - sudo systemctl start docker
 - sudo systemctl enable docker
-- sudo usermod -a -G docker opc
+- sudo usermod -a -G docker ${USER}
