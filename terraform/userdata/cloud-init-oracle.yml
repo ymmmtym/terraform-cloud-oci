@@ -1,5 +1,9 @@
 #cloud-config
 # vim:syntax=yaml
 runcmd:
-  - curl https://releases.rancher.com/install-docker/20.10.sh | sh
-  - sudo usermod -a -G docker $USER
+- sudo iptables -F
+- sudo yum update -y
+- sudo yum install -y docker-engine
+- sudo systemctl start docker
+- sudo systemctl enable docker
+- sudo usermod -a -G docker ${USER}

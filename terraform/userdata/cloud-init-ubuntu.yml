@@ -1,6 +1,10 @@
 #cloud-config
 # vim:syntax=yaml
 runcmd:
+- sudo apt update -y
+- sudo apt install -y dnsutils
 - sudo sysctl -w net.ipv4.ip_forward=1
+- sudo sed -i -e "s/^#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g" /etc/sysctl.conf
+- sudo iptables -F
 - sudo iptables -I FORWARD 1 -i ens3 -o ens3 -j ACCEPT
-- sudo iptables -t nat -A POSTROUTING -o ens3 -s 192.168.1.0/24 -j MASQUERADE
+- sudo iptables -t nat -A POSTROUTING -o ens3 -s ${CIDR_SUBNET02} -j MASQUERADE
