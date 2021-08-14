@@ -6,9 +6,9 @@
 
 ### Prodction
 
-1. Create branch from master.
+1. Create branch from main.
 2. Put tf files.
-3. Create pull-request to master
+3. Create pull-request to main
 4. Terraform Cloud run "terraform plan" (dry-run)
 5. Merge pull-request
 6. Terraform Cloud run "terraform apply" (deploy)
