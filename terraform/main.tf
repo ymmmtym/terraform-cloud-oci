@@ -1,6 +1,6 @@
 terraform {
   backend "remote" {
-    organization = "ymmmtym"
+    organization = "yumenomatayume"
 
     workspaces {
       name = "terraform-cloud-oci"
