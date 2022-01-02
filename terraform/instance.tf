@@ -1,6 +1,5 @@
 resource "oci_core_instance" "kubernetes" {
   count = 4
-  # count               = 4 # [TBD] Out of host capacity.
   availability_domain = oci_core_subnet.subnet01.availability_domain
   compartment_id      = var.COMPARTMENT_OCID
   shape               = "VM.Standard.A1.Flex"
